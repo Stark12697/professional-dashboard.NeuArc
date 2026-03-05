@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuArc — The Constitution</title>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Cairo:wght@300;400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A1628;
+    --navy-mid: #0F2040;
+    --navy-card: #132238;
+    --navy-border: #1E3A5F;
+    --cyan: #00D4FF;
+    --cyan-dim: #00A8CC;
+    --cyan-glow: rgba(0,212,255,0.15);
+    --cyan-glow-strong: rgba(0,212,255,0.35);
+    --white: #F0F8FF;
+    --white-dim: rgba(240,248,255,0.7);
+    --white-faint: rgba(240,248,255,0.35);
+    --green: #00FF94;
+    --green-dim: rgba(0,255,148,0.15);
+    --orange: #FF8C42;
+    --orange-dim: rgba(255,140,66,0.15);
+    --red: #FF4757;
+    --red-dim: rgba(255,71,87,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    animation: gridShift 20s linear infinite;
+  }
+
+  @keyframes gridShift {
+    0% { background-position: 0 0; }
+    100% { background-position: 60px 60px; }
+  }
+
+  /* Floating particles */
+  .particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: float linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 60px 0 40px;
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    display: block;
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    margin: 30px auto 0;
+  }
+
+  .header-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .header-title {
+    font-family: 'Michroma', sans-serif;
+    font-size: clamp(42px, 7vw, 80px);
+    color: var(--white);
+    letter-spacing: 8px;
+    line-height: 1;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .header-title span {
+    color: var(--cyan);
+    text-shadow: 0 0 40px var(--cyan-glow-strong);
+  }
+
+  .header-sub {
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    color: var(--white-dim);
+    margin-top: 12px;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .header-version {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--cyan-dim);
+    letter-spacing: 4px;
+    margin-top: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== NAV TABS ===== */
+  .nav {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 40px 0;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+
+  .nav-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid var(--navy-border);
+    color: var(--white-faint);
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+
+  .nav-btn:hover, .nav-btn.active {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: var(--cyan-glow);
+    box-shadow: 0 0 20px var(--cyan-glow);
+  }
+
+  /* ===== SECTION TITLES ===== */
+  .section {
+    margin-top: 70px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .section-number {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    background: var(--cyan-glow);
+    border: 1px solid var(--cyan);
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+
+  .section-title {
+    font-family: 'Michroma', sans-serif;
+    font-size: clamp(16px, 3vw, 22px);
+    color: var(--white);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .section-title-ar {
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    color: var(--white-faint);
+    margin-top: 2px;
+  }
+
+  /* ===== CARDS GRID ===== */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+
+  .card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--cyan);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--cyan-dim);
+    background: var(--navy-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px var(--cyan-glow);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .card-title {
+    font-family: 'Michroma', sans-serif;
+    font-size: 13px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .card-title-ar {
+    font-family: 'Cairo', sans-serif;
+    font-size: 11px;
+    color: var(--white-faint);
+    margin-bottom: 12px;
+  }
+
+  .card-text {
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    color: var(--white-dim);
+    line-height: 1.7;
+  }
+
+  .card-badge {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    margin-top: 12px;
+    background: var(--cyan-glow);
+  }
+
+  /* ===== UVP HERO ===== */
+  .uvp-box {
+    background: var(--navy-mid);
+    border: 1px solid var(--cyan-dim);
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+
+  .uvp-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, var(--cyan-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .uvp-text {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(16px, 3vw, 22px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  .uvp-text span { color: var(--cyan); }
+
+  /* ===== VALUES ===== */
+  .value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .value-item:last-child { border-bottom: none; }
+
+  .value-check {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    background: var(--cyan-glow);
+    border: 1px solid var(--cyan);
+    padding: 4px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .value-text {
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  .value-text strong { color: var(--white); }
+
+  /* ===== TRACKS TABLE ===== */
+  .track-table { width: 100%; border-collapse: collapse; }
+
+  .track-table th {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    background: var(--navy-mid);
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--cyan-dim);
+    text-transform: uppercase;
+  }
+
+  .track-table td {
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    color: var(--white-dim);
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--navy-border);
+    vertical-align: middle;
+  }
+
+  .track-table tr:hover td {
+    background: var(--navy-mid);
+    color: var(--white);
+  }
+
+  .track-name {
+    font-family: 'Michroma', sans-serif;
+    font-size: 12px;
+    color: var(--cyan);
+    letter-spacing: 1px;
+  }
+
+  .track-icon { font-size: 20px; }
+
+  /* ===== ROADMAP ===== */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+
+  .roadmap-phase {
+    padding: 28px;
+    border: 1px solid var(--navy-border);
+    position: relative;
+    background: var(--navy-card);
+  }
+
+  .roadmap-phase.phase-1 { border-left: 3px solid #00D4FF; }
+  .roadmap-phase.phase-2 { border-left: 3px solid #FF8C42; }
+  .roadmap-phase.phase-3 { border-left: 3px solid #00FF94; }
+
+  .phase-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--white-faint);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .phase-title {
+    font-family: 'Michroma', sans-serif;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .phase-1 .phase-title { color: #00D4FF; }
+  .phase-2 .phase-title { color: #FF8C42; }
+  .phase-3 .phase-title { color: #00FF94; }
+
+  .phase-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--white-faint);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .phase-task {
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    color: var(--white-dim);
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .phase-task::before {
+    content: '→';
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--cyan);
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .phase-goal {
+    margin-top: 16px;
+    padding: 10px 14px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .phase-1 .phase-goal { background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3); color: #00D4FF; }
+  .phase-2 .phase-goal { background: rgba(255,140,66,0.08); border: 1px solid rgba(255,140,66,0.3); color: #FF8C42; }
+  .phase-3 .phase-goal { background: rgba(0,255,148,0.08); border: 1px solid rgba(0,255,148,0.3); color: #00FF94; }
+
+  /* ===== KPI METRICS ===== */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+
+  .kpi-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .kpi-card:hover {
+    border-color: var(--cyan-dim);
+    box-shadow: 0 0 20px var(--cyan-glow);
+  }
+
+  .kpi-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+  }
+
+  .kpi-value {
+    font-family: 'Michroma', sans-serif;
+    font-size: clamp(20px, 4vw, 28px);
+    color: var(--cyan);
+    text-shadow: 0 0 20px var(--cyan-glow-strong);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .kpi-label {
+    font-family: 'Cairo', sans-serif;
+    font-size: 11px;
+    color: var(--white-faint);
+    line-height: 1.4;
+  }
+
+  .kpi-period {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--cyan-dim);
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  /* ===== SWOT ===== */
+  .swot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 4px;
+  }
+
+  .swot-cell {
+    padding: 24px;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+  }
+
+  .swot-s { border-top: 3px solid var(--green); }
+  .swot-w { border-top: 3px solid var(--orange); }
+  .swot-o { border-top: 3px solid var(--cyan); }
+  .swot-t { border-top: 3px solid var(--red); }
+
+  .swot-label {
+    font-family: 'Michroma', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .swot-s .swot-label { color: var(--green); }
+  .swot-w .swot-label { color: var(--orange); }
+  .swot-o .swot-label { color: var(--cyan); }
+  .swot-t .swot-label { color: var(--red); }
+
+  .swot-sublabel {
+    font-family: 'Cairo', sans-serif;
+    font-size: 11px;
+    color: var(--white-faint);
+    margin-bottom: 16px;
+  }
+
+  .swot-item {
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    color: var(--white-dim);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--navy-border);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .swot-item:last-child { border-bottom: none; }
+
+  .swot-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .swot-s .swot-dot { background: var(--green); }
+  .swot-w .swot-dot { background: var(--orange); }
+  .swot-o .swot-dot { background: var(--cyan); }
+  .swot-t .swot-dot { background: var(--red); }
+
+  /* ===== CONTENT STRATEGY ===== */
+  .content-mix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .mix-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .mix-pct {
+    font-family: 'Michroma', sans-serif;
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .mix-type {
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    color: var(--white-dim);
+    margin-bottom: 4px;
+  }
+
+  .mix-voice {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--white-faint);
+  }
+
+  /* ===== REVENUE ===== */
+  .revenue-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .revenue-row.header {
+    background: var(--navy-mid);
+    border-bottom: 1px solid var(--cyan-dim);
+  }
+
+  .revenue-cell {
+    padding: 14px 16px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    color: var(--white-dim);
+  }
+
+  .revenue-row.header .revenue-cell {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    text-transform: uppercase;
+  }
+
+  .revenue-row.total { background: var(--navy-mid); }
+  .revenue-row.total .revenue-cell { color: var(--cyan); font-weight: 700; font-family: 'Michroma', sans-serif; font-size: 13px; }
+
+  /* ===== TEAM CHARTER ===== */
+  .charter-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--navy-border);
+    align-items: flex-start;
+  }
+
+  .charter-num {
+    font-family: 'Michroma', sans-serif;
+    font-size: 20px;
+    color: var(--cyan);
+    opacity: 0.3;
+    flex-shrink: 0;
+    width: 32px;
+    line-height: 1;
+  }
+
+  .charter-content strong {
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    color: var(--white);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .charter-content p {
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    color: var(--white-faint);
+    line-height: 1.6;
+  }
+
+  /* ===== PLATFORMS ===== */
+  .platform-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.3s;
+  }
+
+  .platform-card:hover {
+    border-color: var(--cyan-dim);
+    box-shadow: 0 0 20px var(--cyan-glow);
+    transform: translateY(-2px);
+  }
+
+  .platform-name {
+    font-family: 'Michroma', sans-serif;
+    font-size: 13px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+  }
+
+  .platform-role {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--white-faint);
+    text-transform: uppercase;
+  }
+
+  .platform-desc {
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  /* ===== ANTIICIP ===== */
+  .redline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(255,71,87,0.05);
+    border: 1px solid rgba(255,71,87,0.2);
+    border-left: 3px solid var(--red);
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    color: var(--white-dim);
+  }
+
+  .redline-x {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--red);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  /* ===== SYNTHESIS NOTE ===== */
+  .synthesis {
+    background: var(--navy-mid);
+    border: 1px solid var(--cyan-dim);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 70px;
+  }
+
+  .synthesis::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, var(--cyan-glow) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .synthesis-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .synthesis-text {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(14px, 2.5vw, 18px);
+    color: var(--white);
+    line-height: 1.8;
+    position: relative;
+  }
+
+  .synthesis-text span { color: var(--cyan); font-weight: 700; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    border-top: 1px solid var(--navy-border);
+    margin-top: 70px;
+  }
+
+  .footer-logo {
+    font-family: 'Michroma', sans-serif;
+    font-size: 28px;
+    color: var(--cyan);
+    letter-spacing: 6px;
+    text-shadow: 0 0 30px var(--cyan-glow-strong);
+    margin-bottom: 8px;
+  }
+
+  .footer-tagline {
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    color: var(--white-faint);
+    letter-spacing: 2px;
+  }
+
+  .footer-version {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--navy-border);
+    letter-spacing: 3px;
+    margin-top: 24px;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--navy-border); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
+
+  /* ===== ANIMATION DELAYS ===== */
+  .section:nth-child(1) { animation-delay: 0.2s; }
+  .section:nth-child(2) { animation-delay: 0.3s; }
+  .section:nth-child(3) { animation-delay: 0.4s; }
+  .section:nth-child(4) { animation-delay: 0.5s; }
+  .section:nth-child(5) { animation-delay: 0.6s; }
+  .section:nth-child(6) { animation-delay: 0.7s; }
+  .section:nth-child(7) { animation-delay: 0.8s; }
+  .section:nth-child(8) { animation-delay: 0.9s; }
+  .section:nth-child(9) { animation-delay: 1.0s; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .swot-grid { grid-template-columns: 1fr; }
+    .revenue-row { grid-template-columns: 1fr 1fr; }
+    .revenue-cell:nth-child(3), .revenue-cell:nth-child(4) { display: none; }
+  }
+
+  /* Scan line effect */
+  .scan-line {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.4;
+    animation: scan 4s linear infinite;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  @keyframes scan {
+    0% { top: 0; }
+    100% { top: 100vh; }
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border: 1px solid var(--cyan-dim);
+    color: var(--cyan-dim);
+    margin: 2px;
+  }
+
+  .tag.green { border-color: var(--green); color: var(--green); }
+  .tag.orange { border-color: var(--orange); color: var(--orange); }
+</style>
+</head>
+<body>
+
+<!-- Scan line -->
+<div class="scan-line"></div>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-label">⬡ CLASSIFIED DOCUMENT — INTERNAL USE ONLY ⬡</div>
+    <div class="header-title">NEU<span>ARC</span></div>
+    <div class="header-sub">دستور الشركة — The Constitution</div>
+    <div class="header-version">
+      <span class="status-dot"></span>
+      VERSION 1.0 · MARCH 2025 · EGYPT · B2B · AI SOLUTIONS
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="#identity" class="nav-btn">IDENTITY</a>
+    <a href="#tracks" class="nav-btn">TRACKS</a>
+    <a href="#content" class="nav-btn">CONTENT</a>
+    <a href="#revenue" class="nav-btn">REVENUE</a>
+    <a href="#roadmap" class="nav-btn">ROADMAP</a>
+    <a href="#swot" class="nav-btn">SWOT</a>
+    <a href="#team" class="nav-btn">TEAM</a>
+    <a href="#kpis" class="nav-btn">KPIs</a>
+  </nav>
+
+  <!-- ===== SECTION 1: IDENTITY ===== -->
+  <section class="section" id="identity">
+    <div class="section-header">
+      <div class="section-number">MODULE 01</div>
+      <div>
+        <div class="section-title">Identity & Positioning</div>
+        <div class="section-title-ar">الهوية والتموضع</div>
+      </div>
+    </div>
+
+    <div class="uvp-box">
+      <div class="uvp-text">
+        "<span>NeuArc</span> هي الشركة الوحيدة اللي بتقدم حل AI
+        <span>جذري وشامل وآمن</span> مع متابعة دورية<br>
+        للشركات الصغيرة والمتوسطة — بدل ما تتعامل مع أكتر من جهة."
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <span class="card-icon">🇪🇬</span>
+        <div class="card-title">Origin</div>
+        <div class="card-title-ar">المنشأ</div>
+        <div class="card-text">Egyptian AI Company — built for the local and regional market with deep understanding of Arabic business culture.</div>
+        <span class="card-badge">EGYPT FIRST</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏢</span>
+        <div class="card-title">Market</div>
+        <div class="card-title-ar">السوق المستهدف</div>
+        <div class="card-text">B2B · SMEs · 5-50 موظف · قطاع صحي + أعمال + مالي · مصر ثم الخليج.</div>
+        <span class="card-badge">B2B · SMEs</span>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚖️</span>
+        <div class="card-title">Ethics First</div>
+        <div class="card-title-ar">الأخلاق أولاً</div>
+        <div class="card-text">Differentiator نادر في السوق التقني — نفلتر كل مشروع بمنظور حلال/حرام قبل أي قرار.</div>
+        <span class="card-badge">NON-NEGOTIABLE</span>
+      </div>
+    </div>
+
+    <!-- Values -->
+    <div style="margin-top:24px; background:var(--navy-card); border:1px solid var(--navy-border); padding:28px;">
+      <div style="font-family:'Michroma',sans-serif;font-size:12px;color:var(--cyan);letter-spacing:3px;margin-bottom:20px;text-transform:uppercase;">Core Values — القيم الأساسية</div>
+      <div class="value-item">
+        <div class="value-check">V-01</div>
+        <div class="value-text"><strong>الالتزام والصدق</strong> — لا وعود بدون تنفيذ. الـ Deadline مقدس.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-check">V-02</div>
+        <div class="value-text"><strong>الحلال والحرام أولاً</strong> — نرفض أي مشروع لا يتناسب مع قيمنا الأخلاقية. خط أحمر ثابت.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-check">V-03</div>
+        <div class="value-text"><strong>احترام الوقت</strong> — وقت العميل ووقت الفريق على حد سواء.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-check">V-04</div>
+        <div class="value-text"><strong>الفريق أهم من أي شيء</strong> — الحفاظ على التماسك الداخلي فوق أي عائد مالي.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-check">V-05</div>
+        <div class="value-text"><strong>القيمة مقابل السعر</strong> — لا إغراق في السوق بدون جودة حقيقية.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-check">V-06</div>
+        <div class="value-text"><strong>الذكاء العاطفي</strong> — العامل الأهم للاستمرارية. نفهم قبل أن نتكلم.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: TRACKS ===== -->
+  <section class="section" id="tracks">
+    <div class="section-header">
+      <div class="section-number">MODULE 02</div>
+      <div>
+        <div class="section-title">The 6 Tracks — NeuStone Arsenal</div>
+        <div class="section-title-ar">الأسلحة الستة للحراس</div>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="track-table">
+        <thead>
+          <tr>
+            <th>GUARDIAN</th>
+            <th>TRACK</th>
+            <th>المشكلة التي يحلها</th>
+            <th>القيمة للعميل</th>
+            <th>الأولوية</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="track-icon">🔍</span></td>
+            <td><span class="track-name">Data Analysis</span></td>
+            <td>لا يعرف أي منتجاته يربح ويخسر</td>
+            <td>قرارات مبنية على بيانات حقيقية</td>
+            <td><span class="tag green">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><span class="track-icon">🧠</span></td>
+            <td><span class="track-name">ML & Deep Learning</span></td>
+            <td>يحل نفس المشكلة يدوياً كل مرة</td>
+            <td>الكمبيوتر يأخذ القرار الأمثل</td>
+            <td><span class="tag green">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><span class="track-icon">👁️</span></td>
+            <td><span class="track-name">Computer Vision</span></td>
+            <td>لا يستطيع مراقبة الجودة 24/7</td>
+            <td>عين أوتوماتيكية ترصد العيوب فوراً</td>
+            <td><span class="tag orange">MED</span></td>
+          </tr>
+          <tr>
+            <td><span class="track-icon">👂</span></td>
+            <td><span class="track-name">NLP</span></td>
+            <td>لا يقدر يحلل آراء العملاء</td>
+            <td>تحليل تلقائي بأي لغة وأي مكان</td>
+            <td><span class="tag orange">MED</span></td>
+          </tr>
+          <tr>
+            <td><span class="track-icon">🤖</span></td>
+            <td><span class="track-name">LLMs & Chatbots</span></td>
+            <td>يضيع ساعات في إجابة نفس الأسئلة</td>
+            <td>Chatbot ذكي يعمل 24/7 بدون راتب</td>
+            <td><span class="tag green">HIGH</span></td>
+          </tr>
+          <tr>
+            <td><span class="track-icon">⚙️</span></td>
+            <td><span class="track-name">Automation</span></td>
+            <td>Senior يقضي وقته في مهام متكررة</td>
+            <td>Workflow يفكر مثل Senior بتكلفة Junior</td>
+            <td><span class="tag green">HIGH</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Competitive Gap -->
+    <div style="margin-top:20px; background:var(--navy-card); border:1px solid var(--navy-border); padding:24px;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--cyan);margin-bottom:16px;">COMPETITIVE GAP MAP</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--white-dim);line-height:2;">
+        <div style="text-align:center;color:var(--white-faint);margin-bottom:8px;">سعر مرتفع ▲</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--navy-border);padding:8px 0;">
+          <span style="color:var(--white-faint);">خدمة جزئية ◄</span>
+          <span style="color:var(--cyan);">[ Synapse · FlairsTech ]</span>
+          <span style="color:var(--white-faint);">► خدمة متكاملة</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+          <span style="color:var(--white-faint);">[ Freelancers أفراد ]</span>
+          <span style="color:var(--cyan);font-size:14px;text-shadow:0 0 20px var(--cyan-glow-strong);">◉ NeuArc — HERE</span>
+          <span style="color:var(--white-faint);">← الفراغ الذهبي</span>
+        </div>
+        <div style="text-align:center;color:var(--white-faint);margin-top:8px;">▼ سعر منخفض</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: CONTENT STRATEGY ===== -->
+  <section class="section" id="content">
+    <div class="section-header">
+      <div class="section-number">MODULE 03</div>
+      <div>
+        <div class="section-title">Content Strategy</div>
+        <div class="section-title-ar">استراتيجية المحتوى</div>
+      </div>
+    </div>
+
+    <div class="content-mix">
+      <div class="mix-card">
+        <div class="mix-pct" style="color:#00D4FF;">40%</div>
+        <div class="mix-type">قصصي</div>
+        <div class="mix-voice">STORYTELLING · FRIENDLY</div>
+      </div>
+      <div class="mix-card">
+        <div class="mix-pct" style="color:#00FF94;">30%</div>
+        <div class="mix-type">تعليمي</div>
+        <div class="mix-voice">EDUCATIONAL · WISE</div>
+      </div>
+      <div class="mix-card">
+        <div class="mix-pct" style="color:#FF8C42;">20%</div>
+        <div class="mix-type">تسويقي</div>
+        <div class="mix-voice">MARKETING · FORMAL</div>
+      </div>
+      <div class="mix-card">
+        <div class="mix-pct" style="color:#FF4757;">10%</div>
+        <div class="mix-type">تفاعلي</div>
+        <div class="mix-voice">INTERACTIVE · BOLD</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Platforms Funnel</div>
+        <div class="card-title-ar">المنصات والدور</div>
+        <div style="margin-top:8px;">
+          <div class="phase-task" style="font-size:13px;padding:8px 0;border-bottom:1px solid var(--navy-border);">
+            <span style="font-family:'Michroma',sans-serif;color:var(--cyan);font-size:11px;">Facebook</span>
+            <span style="color:var(--white-faint);font-size:11px;">— Top of Funnel · Brand Building</span>
+          </div>
+          <div class="phase-task" style="font-size:13px;padding:8px 0;border-bottom:1px solid var(--navy-border);">
+            <span style="font-family:'Michroma',sans-serif;color:var(--cyan);font-size:11px;">LinkedIn</span>
+            <span style="color:var(--white-faint);font-size:11px;">— Mid Funnel · B2B Credibility</span>
+          </div>
+          <div class="phase-task" style="font-size:13px;padding:8px 0;border-bottom:1px solid var(--navy-border);">
+            <span style="font-family:'Michroma',sans-serif;color:var(--cyan);font-size:11px;">Instagram</span>
+            <span style="color:var(--white-faint);font-size:11px;">— Top Funnel · Reach & Awareness</span>
+          </div>
+          <div class="phase-task" style="font-size:13px;padding:8px 0;">
+            <span style="font-family:'Michroma',sans-serif;color:var(--cyan);font-size:11px;">Freelance Sites</span>
+            <span style="color:var(--white-faint);font-size:11px;">— Bottom Funnel · Direct Revenue</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Launch Sequence</div>
+        <div class="card-title-ar">تسلسل الانطلاق</div>
+        <div style="margin-top:8px;">
+          <div class="phase-task" style="font-size:13px;padding:10px 0;border-bottom:1px solid var(--navy-border);">
+            <span style="font-family:'Share Tech Mono',monospace;color:var(--cyan);font-size:10px;min-width:50px;">DAY 1</span>
+            🎬 Cinematic Teaser (40 sec)
+          </div>
+          <div class="phase-task" style="font-size:13px;padding:10px 0;border-bottom:1px solid var(--navy-border);">
+            <span style="font-family:'Share Tech Mono',monospace;color:var(--cyan);font-size:10px;min-width:50px;">DAY 2</span>
+            📖 Manifesto Part 1 (10 slides)
+          </div>
+          <div class="phase-task" style="font-size:13px;padding:10px 0;">
+            <span style="font-family:'Share Tech Mono',monospace;color:var(--cyan);font-size:10px;min-width:50px;">DAY 3</span>
+            📖 Manifesto Part 2 (10 slides)
+          </div>
+        </div>
+        <div style="margin-top:12px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--white-faint);">
+          THEN: Regular Calendar — 8 posts/month
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: REVENUE ===== -->
+  <section class="section" id="revenue">
+    <div class="section-header">
+      <div class="section-number">MODULE 04</div>
+      <div>
+        <div class="section-title">Revenue Model</div>
+        <div class="section-title-ar">نموذج الإيراد</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid" style="margin-bottom:24px;">
+      <div class="kpi-card">
+        <div class="kpi-value">$10-20</div>
+        <div class="kpi-label">خدمات مصغرة<br>Gigs</div>
+        <div class="kpi-period">PER GIG · FAST CASH</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">$500-800</div>
+        <div class="kpi-label">مشروع كامل<br>Full Project</div>
+        <div class="kpi-period">PER PROJECT</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">$950</div>
+        <div class="kpi-label">الهدف الشهري<br>Monthly Target</div>
+        <div class="kpi-period">~47,500 EGP</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">40K</div>
+        <div class="kpi-label">هدف 3 شهور<br>جنيه مصري</div>
+        <div class="kpi-period">90-DAY TARGET</div>
+      </div>
+    </div>
+
+    <!-- Revenue Table -->
+    <div style="background:var(--navy-card);border:1px solid var(--navy-border);overflow:hidden;">
+      <div class="revenue-row header">
+        <div class="revenue-cell">الشهر</div>
+        <div class="revenue-cell">خدمات مصغرة</div>
+        <div class="revenue-cell">مشاريع كاملة</div>
+        <div class="revenue-cell">الإجمالي</div>
+      </div>
+      <div class="revenue-row">
+        <div class="revenue-cell" style="color:var(--white);">مارس 2025</div>
+        <div class="revenue-cell">$100-200</div>
+        <div class="revenue-cell">—</div>
+        <div class="revenue-cell" style="color:var(--cyan);">~$200</div>
+      </div>
+      <div class="revenue-row" style="background:rgba(255,255,255,0.02);">
+        <div class="revenue-cell" style="color:var(--white);">أبريل 2025</div>
+        <div class="revenue-cell">$150-300</div>
+        <div class="revenue-cell">$500</div>
+        <div class="revenue-cell" style="color:var(--cyan);">~$800</div>
+      </div>
+      <div class="revenue-row">
+        <div class="revenue-cell" style="color:var(--white);">مايو 2025</div>
+        <div class="revenue-cell">$200-400</div>
+        <div class="revenue-cell">$650</div>
+        <div class="revenue-cell" style="color:var(--cyan);">~$1,050</div>
+      </div>
+      <div class="revenue-row" style="background:rgba(255,255,255,0.02);">
+        <div class="revenue-cell" style="color:var(--white);">يونيو-أغسطس</div>
+        <div class="revenue-cell">نمو تدريجي</div>
+        <div class="revenue-cell">1-2/شهر</div>
+        <div class="revenue-cell" style="color:var(--cyan);">~$1,500/mo</div>
+      </div>
+      <div class="revenue-row total">
+        <div class="revenue-cell">إجمالي 6 شهور</div>
+        <div class="revenue-cell">—</div>
+        <div class="revenue-cell">—</div>
+        <div class="revenue-cell">~$5,000</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: ROADMAP ===== -->
+  <section class="section" id="roadmap">
+    <div class="section-header">
+      <div class="section-number">MODULE 05</div>
+      <div>
+        <div class="section-title">90-Day Roadmap</div>
+        <div class="section-title-ar">خارطة الطريق</div>
+      </div>
+    </div>
+
+    <div class="roadmap">
+      <div class="roadmap-phase phase-1">
+        <div class="phase-label">Phase 01</div>
+        <div class="phase-title">FOUNDATION</div>
+        <div class="phase-date">مارس 2025 · Days 1-30</div>
+        <div class="phase-task">إنشاء صفحات السوشيال</div>
+        <div class="phase-task">Team Charter + Notion</div>
+        <div class="phase-task">نشر أول 3 Gigs</div>
+        <div class="phase-task">Launch Sequence (Video + Manifesto)</div>
+        <div class="phase-task">10-15 Proposal مرسل</div>
+        <div class="phase-task">8 بوستات ثابتة</div>
+        <div class="phase-goal">🎯 300 متابع · أول إيراد</div>
+      </div>
+      <div class="roadmap-phase phase-2">
+        <div class="phase-label">Phase 02</div>
+        <div class="phase-title">ACTIVATION</div>
+        <div class="phase-date">أبريل 2025 · Days 31-60</div>
+        <div class="phase-task">حملة رمضان + عيد الفطر</div>
+        <div class="phase-task">تفعيل LinkedIn</div>
+        <div class="phase-task">استهداف أول مشروع كامل</div>
+        <div class="phase-task">تحليل أداء مارس</div>
+        <div class="phase-task">أول Collaboration</div>
+        <div class="phase-task">عرض عيد الفطر</div>
+        <div class="phase-goal">🎯 800 متابع · 20K جنيه</div>
+      </div>
+      <div class="roadmap-phase phase-3">
+        <div class="phase-label">Phase 03</div>
+        <div class="phase-title">GROWTH</div>
+        <div class="phase-date">مايو 2025 · Days 61-90</div>
+        <div class="phase-task">إعلانات Facebook مدفوعة</div>
+        <div class="phase-task">تدشين Instagram/TikTok</div>
+        <div class="phase-task">مراجعة استراتيجية كاملة</div>
+        <div class="phase-task">Workshop جامعي أول</div>
+        <div class="phase-task">بناء البورتفوليو LinkedIn</div>
+        <div class="phase-task">Team Retro</div>
+        <div class="phase-goal">🎯 1,500 متابع · 40K جنيه</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6: SWOT ===== -->
+  <section class="section" id="swot">
+    <div class="section-header">
+      <div class="section-number">MODULE 06</div>
+      <div>
+        <div class="section-title">SWOT Analysis</div>
+        <div class="section-title-ar">تحليل السوق والموقف التنافسي</div>
+      </div>
+    </div>
+
+    <div class="swot-grid">
+      <div class="swot-cell swot-s">
+        <div class="swot-label">S</div>
+        <div class="swot-sublabel">Strengths — نقاط القوة</div>
+        <div class="swot-item"><div class="swot-dot"></div>حل End-to-End متكامل (6 Tracks)</div>
+        <div class="swot-item"><div class="swot-dot"></div>تسعير تنافسي لـ SMEs</div>
+        <div class="swot-item"><div class="swot-dot"></div>قيم أخلاقية واضحة ونادرة</div>
+        <div class="swot-item"><div class="swot-dot"></div>Brand Story مميز (NeuStone)</div>
+        <div class="swot-item"><div class="swot-dot"></div>تكلفة تشغيلية منخفضة</div>
+      </div>
+      <div class="swot-cell swot-w">
+        <div class="swot-label">W</div>
+        <div class="swot-sublabel">Weaknesses — نقاط الضعف</div>
+        <div class="swot-item"><div class="swot-dot"></div>ضغط الدراسة والامتحانات</div>
+        <div class="swot-item"><div class="swot-dot"></div>صفر بورتفوليو مُعلن</div>
+        <div class="swot-item"><div class="swot-dot"></div>لا موقع إلكتروني بعد</div>
+        <div class="swot-item"><div class="swot-dot"></div>محدودية الوقت (8h/week)</div>
+        <div class="swot-item"><div class="swot-dot"></div>كل الفريق جونيورز</div>
+      </div>
+      <div class="swot-cell swot-o">
+        <div class="swot-label">O</div>
+        <div class="swot-sublabel">Opportunities — الفرص</div>
+        <div class="swot-item"><div class="swot-dot"></div>붐 AI عالمي ومصري</div>
+        <div class="swot-item"><div class="swot-dot"></div>معظم SMEs غير مخدومة</div>
+        <div class="swot-item"><div class="swot-dot"></div>رمضان + عيد = موسم إنفاق</div>
+        <div class="swot-item"><div class="swot-dot"></div>مواقع العمل الحر تنمو</div>
+        <div class="swot-item"><div class="swot-dot"></div>كوميونيتيز AI المصرية نشطة</div>
+      </div>
+      <div class="swot-cell swot-t">
+        <div class="swot-label">T</div>
+        <div class="swot-sublabel">Threats — التهديدات</div>
+        <div class="swot-item"><div class="swot-dot"></div>Freelancers أرخص سعراً</div>
+        <div class="swot-item"><div class="swot-dot"></div>شركات كبيرة بسمعة راسخة</div>
+        <div class="swot-item"><div class="swot-dot"></div>تغير سريع في تقنيات AI</div>
+        <div class="swot-item"><div class="swot-dot"></div>بعض SMEs غير مستعدة</div>
+        <div class="swot-item"><div class="swot-dot"></div>منافسون جدد بنفس الفكرة</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 7: TEAM ===== -->
+  <section class="section" id="team">
+    <div class="section-header">
+      <div class="section-number">MODULE 07</div>
+      <div>
+        <div class="section-title">Team Charter</div>
+        <div class="section-title-ar">دستور الفريق</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div>
+        <div class="charter-item">
+          <div class="charter-num">01</div>
+          <div class="charter-content">
+            <strong>إشعار 48 ساعة</strong>
+            <p>لو حد مش قادر يكمل مهمة — يقول قبل 48 ساعة، مش بعد الـ Deadline.</p>
+          </div>
+        </div>
+        <div class="charter-item">
+          <div class="charter-num">02</div>
+          <div class="charter-content">
+            <strong>عدم التدخل المباشر</strong>
+            <p>كل شخص مسؤول عن دوره — لا تعديل على شغل التاني بدون إذن.</p>
+          </div>
+        </div>
+        <div class="charter-item">
+          <div class="charter-num">03</div>
+          <div class="charter-content">
+            <strong>اجتماع أسبوعي ثابت</strong>
+            <p>30 دقيقة كل أسبوع — مراجعة التقدم وحل المشاكل.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="charter-item">
+          <div class="charter-num">04</div>
+          <div class="charter-content">
+            <strong>لا محاباة</strong>
+            <p>القرارات بناءً على الكفاءة والالتزام، مش العلاقات الشخصية.</p>
+          </div>
+        </div>
+        <div class="charter-item">
+          <div class="charter-num">05</div>
+          <div class="charter-content">
+            <strong>أوقات الامتحانات</strong>
+            <p>لا مشاريع جديدة في الأسبوعين قبل الامتحانات الكبيرة.</p>
+          </div>
+        </div>
+        <div class="charter-item">
+          <div class="charter-num">06</div>
+          <div class="charter-content">
+            <strong>توزيع الأرباح</strong>
+            <p>يُحدد قبل أي مشروع بالاتفاق الكامل — لا خلافات بعد التنفيذ.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Anti-ICP -->
+    <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--red);margin-bottom:12px;">RED LINES — خطوط حمراء لا تُتجاوز</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="redline"><span class="redline-x">REJECT</span> مشاريع لا تتناسب مع القيم الأخلاقية — بدون استثناء</div>
+      <div class="redline"><span class="redline-x">REJECT</span> قبول مشاريع في أوقات الضغط الدراسي بدون موافقة الفريق</div>
+      <div class="redline"><span class="redline-x">REJECT</span> إغراق في السوق بسعر منخفض على حساب الجودة</div>
+      <div class="redline"><span class="redline-x">REJECT</span> أي عميل Lead Score أقل من 8 نقاط بدون نقاش الفريق</div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 8: KPIs ===== -->
+  <section class="section" id="kpis">
+    <div class="section-header">
+      <div class="section-number">MODULE 08</div>
+      <div>
+        <div class="section-title">KPIs & Success Metrics</div>
+        <div class="section-title-ar">مقاييس النجاح</div>
+      </div>
+    </div>
+
+    <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--cyan);margin-bottom:16px;">6-MONTH TARGETS</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-value">2K+</div>
+        <div class="kpi-label">متابعين Facebook</div>
+        <div class="kpi-period">AUG 2025</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">5+</div>
+        <div class="kpi-label">عملاء حقيقيين</div>
+        <div class="kpi-period">TOTAL</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">40K</div>
+        <div class="kpi-label">جنيه إجمالي</div>
+        <div class="kpi-period">90 DAYS</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">4.5★</div>
+        <div class="kpi-label">تقييم مواقع العمل</div>
+        <div class="kpi-period">AVERAGE</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">5%+</div>
+        <div class="kpi-label">Engagement Rate</div>
+        <div class="kpi-period">MONTHLY</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">3+</div>
+        <div class="kpi-label">Team Score</div>
+        <div class="kpi-period">MONTHLY</div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+      <div style="background:var(--green-dim);border:1px solid rgba(0,255,148,0.3);padding:16px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green);">
+        🟢 ON TRACK<br><span style="font-size:9px;color:var(--white-faint);">هدف محقق أو أحسن</span>
+      </div>
+      <div style="background:var(--orange-dim);border:1px solid rgba(255,140,66,0.3);padding:16px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--orange);">
+        🟡 AT RISK<br><span style="font-size:9px;color:var(--white-faint);">أقل من الهدف بـ 20%</span>
+      </div>
+      <div style="background:var(--red-dim);border:1px solid rgba(255,71,87,0.3);padding:16px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);">
+        🔴 ACTION NEEDED<br><span style="font-size:9px;color:var(--white-faint);">محتاج تدخل فوري</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SYNTHESIS NOTE ===== -->
+  <div class="synthesis">
+    <div class="synthesis-label">⬡ COMMANDER'S SYNTHESIS NOTE ⬡</div>
+    <div class="synthesis-text">
+      NeuArc تملأ <span>الفراغ الذهبي</span> في السوق المصري —
+      خدمة AI متكاملة بسعر في متناول الـ SMEs، بالعربي، مع ضمان المتابعة.<br><br>
+      السلاح الأقوى ليس التقنية — بل <span>القيم + الالتزام + الذكاء العاطفي</span>.<br><br>
+      ابنِ على النار الهادية. الاستدامة أهم من السرعة.
+      <span>والنجاح هيجي.</span> 🔥
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">NEUARC</div>
+    <div class="footer-tagline">Guardians of Business Growth · حراس نمو شركتك</div>
+    <div class="footer-version">CONSTITUTION v1.0 · MARCH 2025 · CONFIDENTIAL</div>
+  </footer>
+
+</div>
+
+<script>
+  // Generate particles
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 15) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = (Math.random() > 0.7 ? 3 : 2) + 'px';
+    p.style.height = p.style.width;
+    container.appendChild(p);
+  }
+
+  // Smooth nav highlight
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const sections = document.querySelectorAll('section[id]');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Typing effect for header label
+  const label = document.querySelector('.header-label');
+  const text = label.textContent;
+  label.textContent = '';
+  let i = 0;
+  setTimeout(() => {
+    const interval = setInterval(() => {
+      label.textContent += text[i++];
+      if (i >= text.length) clearInterval(interval);
+    }, 40);
+  }, 500);
+</script>
+</body>
+</html>
