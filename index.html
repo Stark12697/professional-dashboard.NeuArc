@@ -836,6 +836,118 @@
   ::-webkit-scrollbar-thumb { background: var(--navy-border); }
   ::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
 
+  /* ===== ARABIC RTL ===== */
+  .ar {
+    direction: rtl;
+    text-align: right;
+    unicode-bidi: embed;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  /* All Arabic text elements */
+  .card-title-ar,
+  .section-title-ar,
+  .uvp-text,
+  .value-text,
+  .card-text,
+  .synthesis-text,
+  .platform-desc,
+  .charter-content strong,
+  .charter-content p,
+  .swot-sublabel,
+  .mix-type,
+  .kpi-label,
+  .phase-date,
+  .phase-goal {
+    direction: rtl;
+    text-align: right;
+    unicode-bidi: embed;
+  }
+
+  /* Flex rows that contain Arabic — reverse to RTL */
+  .value-item {
+    flex-direction: row-reverse;
+  }
+
+  .charter-item {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  .phase-task {
+    direction: rtl;
+    text-align: right;
+    flex-direction: row-reverse;
+  }
+
+  .phase-task::before {
+    content: '←';
+  }
+
+  .swot-item {
+    direction: rtl;
+    text-align: right;
+    flex-direction: row-reverse;
+  }
+
+  .redline {
+    direction: rtl;
+    text-align: right;
+    flex-direction: row-reverse;
+    border-left: none;
+    border-right: 3px solid var(--red);
+  }
+
+  /* Table Arabic cells */
+  .track-table td {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Keep first col (icon) and last col (tag) centered */
+  .track-table td:first-child,
+  .track-table td:last-child {
+    text-align: center;
+    direction: ltr;
+  }
+
+  /* Track name stays LTR */
+  .track-name { direction: ltr; text-align: left; }
+
+  /* Revenue cells Arabic */
+  .revenue-cell {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Revenue header stays LTR */
+  .revenue-row.header .revenue-cell,
+  .revenue-row.total .revenue-cell {
+    direction: ltr;
+    text-align: left;
+    font-family: 'Michroma', sans-serif;
+  }
+
+  /* UVP centered bilingual */
+  .uvp-text { text-align: center; }
+
+  /* Synthesis RTL */
+  .synthesis-text {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Footer tagline */
+  .footer-tagline {
+    direction: rtl;
+    text-align: center;
+  }
+
+  /* Section header dual layout */
+  .section-header {
+    flex-direction: row;
+  }
+
   /* ===== ANIMATION DELAYS ===== */
   .section:nth-child(1) { animation-delay: 0.2s; }
   .section:nth-child(2) { animation-delay: 0.3s; }
@@ -948,7 +1060,7 @@
     </div>
 
     <div class="uvp-box">
-      <div class="uvp-text">
+      <div class="uvp-text" dir="rtl">
         "<span>NeuArc</span> هي الشركة الوحيدة اللي بتقدم حل AI
         <span>جذري وشامل وآمن</span> مع متابعة دورية<br>
         للشركات الصغيرة والمتوسطة — بدل ما تتعامل مع أكتر من جهة."
@@ -960,21 +1072,21 @@
         <span class="card-icon">🇪🇬</span>
         <div class="card-title">Origin</div>
         <div class="card-title-ar">المنشأ</div>
-        <div class="card-text">Egyptian AI Company — built for the local and regional market with deep understanding of Arabic business culture.</div>
+        <div class="card-text" dir="rtl">Egyptian AI Company — built for the local and regional market with deep understanding of Arabic business culture.</div>
         <span class="card-badge">EGYPT FIRST</span>
       </div>
       <div class="card">
         <span class="card-icon">🏢</span>
         <div class="card-title">Market</div>
         <div class="card-title-ar">السوق المستهدف</div>
-        <div class="card-text">B2B · SMEs · 5-50 موظف · قطاع صحي + أعمال + مالي · مصر ثم الخليج.</div>
+        <div class="card-text" dir="rtl">B2B · SMEs · 5-50 موظف · قطاع صحي + أعمال + مالي · مصر ثم الخليج.</div>
         <span class="card-badge">B2B · SMEs</span>
       </div>
       <div class="card">
         <span class="card-icon">⚖️</span>
         <div class="card-title">Ethics First</div>
         <div class="card-title-ar">الأخلاق أولاً</div>
-        <div class="card-text">Differentiator نادر في السوق التقني — نفلتر كل مشروع بمنظور حلال/حرام قبل أي قرار.</div>
+        <div class="card-text" dir="rtl">Differentiator نادر في السوق التقني — نفلتر كل مشروع بمنظور حلال/حرام قبل أي قرار.</div>
         <span class="card-badge">NON-NEGOTIABLE</span>
       </div>
     </div>
@@ -984,27 +1096,27 @@
       <div style="font-family:'Michroma',sans-serif;font-size:12px;color:var(--cyan);letter-spacing:3px;margin-bottom:20px;text-transform:uppercase;">Core Values — القيم الأساسية</div>
       <div class="value-item">
         <div class="value-check">V-01</div>
-        <div class="value-text"><strong>الالتزام والصدق</strong> — لا وعود بدون تنفيذ. الـ Deadline مقدس.</div>
+        <div class="value-text" dir="rtl"><strong>الالتزام والصدق</strong> — لا وعود بدون تنفيذ. الـ Deadline مقدس.</div>
       </div>
       <div class="value-item">
         <div class="value-check">V-02</div>
-        <div class="value-text"><strong>الحلال والحرام أولاً</strong> — نرفض أي مشروع لا يتناسب مع قيمنا الأخلاقية. خط أحمر ثابت.</div>
+        <div class="value-text" dir="rtl"><strong>الحلال والحرام أولاً</strong> — نرفض أي مشروع لا يتناسب مع قيمنا الأخلاقية. خط أحمر ثابت.</div>
       </div>
       <div class="value-item">
         <div class="value-check">V-03</div>
-        <div class="value-text"><strong>احترام الوقت</strong> — وقت العميل ووقت الفريق على حد سواء.</div>
+        <div class="value-text" dir="rtl"><strong>احترام الوقت</strong> — وقت العميل ووقت الفريق على حد سواء.</div>
       </div>
       <div class="value-item">
         <div class="value-check">V-04</div>
-        <div class="value-text"><strong>الفريق أهم من أي شيء</strong> — الحفاظ على التماسك الداخلي فوق أي عائد مالي.</div>
+        <div class="value-text" dir="rtl"><strong>الفريق أهم من أي شيء</strong> — الحفاظ على التماسك الداخلي فوق أي عائد مالي.</div>
       </div>
       <div class="value-item">
         <div class="value-check">V-05</div>
-        <div class="value-text"><strong>القيمة مقابل السعر</strong> — لا إغراق في السوق بدون جودة حقيقية.</div>
+        <div class="value-text" dir="rtl"><strong>القيمة مقابل السعر</strong> — لا إغراق في السوق بدون جودة حقيقية.</div>
       </div>
       <div class="value-item">
         <div class="value-check">V-06</div>
-        <div class="value-text"><strong>الذكاء العاطفي</strong> — العامل الأهم للاستمرارية. نفهم قبل أن نتكلم.</div>
+        <div class="value-text" dir="rtl"><strong>الذكاء العاطفي</strong> — العامل الأهم للاستمرارية. نفهم قبل أن نتكلم.</div>
       </div>
     </div>
   </section>
@@ -1266,38 +1378,38 @@
       <div class="roadmap-phase phase-1">
         <div class="phase-label">Phase 01</div>
         <div class="phase-title">FOUNDATION</div>
-        <div class="phase-date">مارس 2025 · Days 1-30</div>
-        <div class="phase-task">إنشاء صفحات السوشيال</div>
-        <div class="phase-task">Team Charter + Notion</div>
-        <div class="phase-task">نشر أول 3 Gigs</div>
-        <div class="phase-task">Launch Sequence (Video + Manifesto)</div>
-        <div class="phase-task">10-15 Proposal مرسل</div>
-        <div class="phase-task">8 بوستات ثابتة</div>
-        <div class="phase-goal">🎯 300 متابع · أول إيراد</div>
+        <div class="phase-date" dir="rtl">مارس 2025 · Days 1-30</div>
+        <div class="phase-task" dir="rtl">إنشاء صفحات السوشيال</div>
+        <div class="phase-task" dir="rtl">Team Charter + Notion</div>
+        <div class="phase-task" dir="rtl">نشر أول 3 Gigs</div>
+        <div class="phase-task" dir="rtl">Launch Sequence (Video + Manifesto)</div>
+        <div class="phase-task" dir="rtl">10-15 Proposal مرسل</div>
+        <div class="phase-task" dir="rtl">8 بوستات ثابتة</div>
+        <div class="phase-goal" dir="rtl">🎯 300 متابع · أول إيراد</div>
       </div>
       <div class="roadmap-phase phase-2">
         <div class="phase-label">Phase 02</div>
         <div class="phase-title">ACTIVATION</div>
-        <div class="phase-date">أبريل 2025 · Days 31-60</div>
-        <div class="phase-task">حملة رمضان + عيد الفطر</div>
-        <div class="phase-task">تفعيل LinkedIn</div>
-        <div class="phase-task">استهداف أول مشروع كامل</div>
-        <div class="phase-task">تحليل أداء مارس</div>
-        <div class="phase-task">أول Collaboration</div>
-        <div class="phase-task">عرض عيد الفطر</div>
-        <div class="phase-goal">🎯 800 متابع · 20K جنيه</div>
+        <div class="phase-date" dir="rtl">أبريل 2025 · Days 31-60</div>
+        <div class="phase-task" dir="rtl">حملة رمضان + عيد الفطر</div>
+        <div class="phase-task" dir="rtl">تفعيل LinkedIn</div>
+        <div class="phase-task" dir="rtl">استهداف أول مشروع كامل</div>
+        <div class="phase-task" dir="rtl">تحليل أداء مارس</div>
+        <div class="phase-task" dir="rtl">أول Collaboration</div>
+        <div class="phase-task" dir="rtl">عرض عيد الفطر</div>
+        <div class="phase-goal" dir="rtl">🎯 800 متابع · 20K جنيه</div>
       </div>
       <div class="roadmap-phase phase-3">
         <div class="phase-label">Phase 03</div>
         <div class="phase-title">GROWTH</div>
-        <div class="phase-date">مايو 2025 · Days 61-90</div>
-        <div class="phase-task">إعلانات Facebook مدفوعة</div>
-        <div class="phase-task">تدشين Instagram/TikTok</div>
-        <div class="phase-task">مراجعة استراتيجية كاملة</div>
-        <div class="phase-task">Workshop جامعي أول</div>
-        <div class="phase-task">بناء البورتفوليو LinkedIn</div>
-        <div class="phase-task">Team Retro</div>
-        <div class="phase-goal">🎯 1,500 متابع · 40K جنيه</div>
+        <div class="phase-date" dir="rtl">مايو 2025 · Days 61-90</div>
+        <div class="phase-task" dir="rtl">إعلانات Facebook مدفوعة</div>
+        <div class="phase-task" dir="rtl">تدشين Instagram/TikTok</div>
+        <div class="phase-task" dir="rtl">مراجعة استراتيجية كاملة</div>
+        <div class="phase-task" dir="rtl">Workshop جامعي أول</div>
+        <div class="phase-task" dir="rtl">بناء البورتفوليو LinkedIn</div>
+        <div class="phase-task" dir="rtl">Team Retro</div>
+        <div class="phase-goal" dir="rtl">🎯 1,500 متابع · 40K جنيه</div>
       </div>
     </div>
   </section>
@@ -1316,38 +1428,38 @@
       <div class="swot-cell swot-s">
         <div class="swot-label">S</div>
         <div class="swot-sublabel">Strengths — نقاط القوة</div>
-        <div class="swot-item"><div class="swot-dot"></div>حل End-to-End متكامل (6 Tracks)</div>
-        <div class="swot-item"><div class="swot-dot"></div>تسعير تنافسي لـ SMEs</div>
-        <div class="swot-item"><div class="swot-dot"></div>قيم أخلاقية واضحة ونادرة</div>
-        <div class="swot-item"><div class="swot-dot"></div>Brand Story مميز (NeuStone)</div>
-        <div class="swot-item"><div class="swot-dot"></div>تكلفة تشغيلية منخفضة</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>حل End-to-End متكامل (6 Tracks)</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>تسعير تنافسي لـ SMEs</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>قيم أخلاقية واضحة ونادرة</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>Brand Story مميز (NeuStone)</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>تكلفة تشغيلية منخفضة</div>
       </div>
       <div class="swot-cell swot-w">
         <div class="swot-label">W</div>
         <div class="swot-sublabel">Weaknesses — نقاط الضعف</div>
-        <div class="swot-item"><div class="swot-dot"></div>ضغط الدراسة والامتحانات</div>
-        <div class="swot-item"><div class="swot-dot"></div>صفر بورتفوليو مُعلن</div>
-        <div class="swot-item"><div class="swot-dot"></div>لا موقع إلكتروني بعد</div>
-        <div class="swot-item"><div class="swot-dot"></div>محدودية الوقت (8h/week)</div>
-        <div class="swot-item"><div class="swot-dot"></div>كل الفريق جونيورز</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>ضغط الدراسة والامتحانات</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>صفر بورتفوليو مُعلن</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>لا موقع إلكتروني بعد</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>محدودية الوقت (8h/week)</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>كل الفريق جونيورز</div>
       </div>
       <div class="swot-cell swot-o">
         <div class="swot-label">O</div>
         <div class="swot-sublabel">Opportunities — الفرص</div>
-        <div class="swot-item"><div class="swot-dot"></div>붐 AI عالمي ومصري</div>
-        <div class="swot-item"><div class="swot-dot"></div>معظم SMEs غير مخدومة</div>
-        <div class="swot-item"><div class="swot-dot"></div>رمضان + عيد = موسم إنفاق</div>
-        <div class="swot-item"><div class="swot-dot"></div>مواقع العمل الحر تنمو</div>
-        <div class="swot-item"><div class="swot-dot"></div>كوميونيتيز AI المصرية نشطة</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>붐 AI عالمي ومصري</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>معظم SMEs غير مخدومة</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>رمضان + عيد = موسم إنفاق</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>مواقع العمل الحر تنمو</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>كوميونيتيز AI المصرية نشطة</div>
       </div>
       <div class="swot-cell swot-t">
         <div class="swot-label">T</div>
         <div class="swot-sublabel">Threats — التهديدات</div>
-        <div class="swot-item"><div class="swot-dot"></div>Freelancers أرخص سعراً</div>
-        <div class="swot-item"><div class="swot-dot"></div>شركات كبيرة بسمعة راسخة</div>
-        <div class="swot-item"><div class="swot-dot"></div>تغير سريع في تقنيات AI</div>
-        <div class="swot-item"><div class="swot-dot"></div>بعض SMEs غير مستعدة</div>
-        <div class="swot-item"><div class="swot-dot"></div>منافسون جدد بنفس الفكرة</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>Freelancers أرخص سعراً</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>شركات كبيرة بسمعة راسخة</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>تغير سريع في تقنيات AI</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>بعض SMEs غير مستعدة</div>
+        <div class="swot-item" dir="rtl"><div class="swot-dot"></div>منافسون جدد بنفس الفكرة</div>
       </div>
     </div>
   </section>
@@ -1367,22 +1479,22 @@
         <div class="charter-item">
           <div class="charter-num">01</div>
           <div class="charter-content">
-            <strong>إشعار 48 ساعة</strong>
-            <p>لو حد مش قادر يكمل مهمة — يقول قبل 48 ساعة، مش بعد الـ Deadline.</p>
+            <strong dir="rtl">إشعار 48 ساعة</strong>
+            <p dir="rtl">لو حد مش قادر يكمل مهمة — يقول قبل 48 ساعة، مش بعد الـ Deadline.</p>
           </div>
         </div>
         <div class="charter-item">
           <div class="charter-num">02</div>
           <div class="charter-content">
-            <strong>عدم التدخل المباشر</strong>
-            <p>كل شخص مسؤول عن دوره — لا تعديل على شغل التاني بدون إذن.</p>
+            <strong dir="rtl">عدم التدخل المباشر</strong>
+            <p dir="rtl">كل شخص مسؤول عن دوره — لا تعديل على شغل التاني بدون إذن.</p>
           </div>
         </div>
         <div class="charter-item">
           <div class="charter-num">03</div>
           <div class="charter-content">
-            <strong>اجتماع أسبوعي ثابت</strong>
-            <p>30 دقيقة كل أسبوع — مراجعة التقدم وحل المشاكل.</p>
+            <strong dir="rtl">اجتماع أسبوعي ثابت</strong>
+            <p dir="rtl">30 دقيقة كل أسبوع — مراجعة التقدم وحل المشاكل.</p>
           </div>
         </div>
       </div>
@@ -1390,22 +1502,22 @@
         <div class="charter-item">
           <div class="charter-num">04</div>
           <div class="charter-content">
-            <strong>لا محاباة</strong>
-            <p>القرارات بناءً على الكفاءة والالتزام، مش العلاقات الشخصية.</p>
+            <strong dir="rtl">لا محاباة</strong>
+            <p dir="rtl">القرارات بناءً على الكفاءة والالتزام، مش العلاقات الشخصية.</p>
           </div>
         </div>
         <div class="charter-item">
           <div class="charter-num">05</div>
           <div class="charter-content">
-            <strong>أوقات الامتحانات</strong>
-            <p>لا مشاريع جديدة في الأسبوعين قبل الامتحانات الكبيرة.</p>
+            <strong dir="rtl">أوقات الامتحانات</strong>
+            <p dir="rtl">لا مشاريع جديدة في الأسبوعين قبل الامتحانات الكبيرة.</p>
           </div>
         </div>
         <div class="charter-item">
           <div class="charter-num">06</div>
           <div class="charter-content">
-            <strong>توزيع الأرباح</strong>
-            <p>يُحدد قبل أي مشروع بالاتفاق الكامل — لا خلافات بعد التنفيذ.</p>
+            <strong dir="rtl">توزيع الأرباح</strong>
+            <p dir="rtl">يُحدد قبل أي مشروع بالاتفاق الكامل — لا خلافات بعد التنفيذ.</p>
           </div>
         </div>
       </div>
@@ -1414,10 +1526,10 @@
     <!-- Anti-ICP -->
     <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--red);margin-bottom:12px;">RED LINES — خطوط حمراء لا تُتجاوز</div>
     <div style="display:flex;flex-direction:column;gap:8px;">
-      <div class="redline"><span class="redline-x">REJECT</span> مشاريع لا تتناسب مع القيم الأخلاقية — بدون استثناء</div>
-      <div class="redline"><span class="redline-x">REJECT</span> قبول مشاريع في أوقات الضغط الدراسي بدون موافقة الفريق</div>
-      <div class="redline"><span class="redline-x">REJECT</span> إغراق في السوق بسعر منخفض على حساب الجودة</div>
-      <div class="redline"><span class="redline-x">REJECT</span> أي عميل Lead Score أقل من 8 نقاط بدون نقاش الفريق</div>
+      <div class="redline" dir="rtl"><span class="redline-x">REJECT</span> مشاريع لا تتناسب مع القيم الأخلاقية — بدون استثناء</div>
+      <div class="redline" dir="rtl"><span class="redline-x">REJECT</span> قبول مشاريع في أوقات الضغط الدراسي بدون موافقة الفريق</div>
+      <div class="redline" dir="rtl"><span class="redline-x">REJECT</span> إغراق في السوق بسعر منخفض على حساب الجودة</div>
+      <div class="redline" dir="rtl"><span class="redline-x">REJECT</span> أي عميل Lead Score أقل من 8 نقاط بدون نقاش الفريق</div>
     </div>
   </section>
 
@@ -1481,7 +1593,7 @@
   <!-- ===== SYNTHESIS NOTE ===== -->
   <div class="synthesis">
     <div class="synthesis-label">⬡ COMMANDER'S SYNTHESIS NOTE ⬡</div>
-    <div class="synthesis-text">
+    <div class="synthesis-text" dir="rtl">
       NeuArc تملأ <span>الفراغ الذهبي</span> في السوق المصري —
       خدمة AI متكاملة بسعر في متناول الـ SMEs، بالعربي، مع ضمان المتابعة.<br><br>
       السلاح الأقوى ليس التقنية — بل <span>القيم + الالتزام + الذكاء العاطفي</span>.<br><br>
